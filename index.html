@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Automático</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .chat-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Organiza itens na vertical */
+        }
+        .message {
+            background-color: #e0f7fa;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        .input-container {
+            display: none; /* Inicialmente escondido */
+            margin: 10px 0;
+            flex-direction: column; /* Organiza itens na vertical */
+            align-items: center; /* Centraliza os itens */
+        }
+        #pixKey {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s; /* Transição suave */
+        }
+        #pixKey:focus {
+            border-color: #0056b3; /* Cor do borda ao focar */
+            outline: none; /* Remove contorno padrão */
+        }
+        .send-button {
+            background-color: #007bff; /* Cor de fundo do botão de enviar */
+            color: white; /* Cor do texto */
+            border: none; /* Remove a borda padrão */
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s; /* Transição suave */
+            width: 100%; /* Largura total */
+        }
+        .send-button:hover {
+            background-color: #0056b3; /* Cor ao passar o mouse */
+        }
+        .continue-button {
+            background-color: transparent; /* Fundo transparente */
+            color: #007bff; /* Cor do texto */
+            border: 2px solid #007bff; /* Borda do botão */
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: none; /* Inicialmente escondido */
+            transition: background-color 0.3s, color 0.3s; /* Transição suave */
+            align-self: center; /* Centraliza o botão */
+        }
+        .continue-button:hover {
+            background-color: rgba(0, 123, 255, 0.1); /* Efeito ao passar o mouse */
+            color: #0056b3; /* Muda a cor do texto ao passar o mouse */
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chatContainer">
+        <div id="messages"></div>
+        <div class="input-container" id="inputContainer">
+            <input type="text" id="pixKey" placeholder="Digite sua chave PIX" />
+            <button class="send-button" id="sendButton" onclick="sendPixKey()">Enviar Chave PIX</button>
+        </div>
+        <button class="continue-button" id="nextButton" onclick="window.location.href='https://go.tribopay.com/wqrtq'">PULAR FILA/🧞‍♂️</button>
+    </div>
+
+    <script>
+        const messages = [
+            "Olá! Bem-vindo.",
+            "Estamos felizes em ter você aqui.",
+            "A Taxa de Validação - (Captcha) Serve como uma etapa anti-fraude, para evitar fraudes e abuso dos saques que estavam ocorrendo dentro da plataforma! Mas não precisa se preocupar, você receberá o valor da taxa de volta, junto ao valor do seu saque, seria apenas uma etapa de validação de que você é humano e não um robô.",
+            "Por favor, aguarde enquanto processamos sua solicitação."
+        ];
+        
+        let messageIndex = 0;
+
+        function showMessage() {
+            if (messageIndex < messages.length) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerText = messages[messageIndex];
+                document.getElementById('messages').appendChild(messageDiv);
+                messageIndex++;
+                setTimeout(showMessage, 2000); // Aguarda 2 segundos antes de mostrar a próxima mensagem
+            } else {
+                // Mostra o campo de entrada e o botão "Enviar Chave PIX" após as mensagens
+                document.getElementById('inputContainer').style.display = 'flex';
+            }
+        }
+
+        function sendPixKey() {
+            const pixKey = document.getElementById('pixKey').value;
+            if (pixKey) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerText = `Chave PIX recebida: ${pixKey}`;
+                document.getElementById('messages').appendChild(messageDiv);
+                
+                document.getElementById('pixKey').value = ''; // Limpa o campo de entrada
+                document.getElementById('inputContainer').style.display = 'none'; // Oculta o campo de entrada e botão após o envio
+
+                // Inicia a exibição das próximas mensagens
+                setTimeout(showRemainingMessages, 1000); // Aguarda 1 segundo antes de continuar
+            } else {
+                alert("Por favor, digite uma chave PIX.");
+            }
+        }
+
+        function showRemainingMessages() {
+            // Mostra as mensagens restantes
+            const remainingMessages = [
+                "O SAQUE PODE DEMORAR ATÉ 15 DIAS.",
+                "TEM 5MIL PESSOAS NA SUA FRENTE NA FILA DE SAQUE.",
+                "SE VOCÊ QUISER RECEBER ANTES, VOCÊ DEVE PAGAR PARA PULAR A FILA.",
+                "OU VOCÊ PODE ESPERAR 15 DIAS QUE O SALDO ESTARÁ NA SUA CONTA."
+            ];
+
+            remainingMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.innerText = msg;
+                    document.getElementById('messages').appendChild(messageDiv);
+                }, index * 2000); // Atraso de 2 segundos entre as mensagens
+            });
+
+            // Mostra o botão "Continuar" após a última mensagem
+            setTimeout(() => {
+                document.getElementById('nextButton').style.display = 'block'; // Mostra o botão após todas as mensagens
+            }, remainingMessages.length * 2000); // Calcula o tempo total de exibição das mensagens
+        }
+
+        showMessage();
+    </script>
+</body>
+</html>
